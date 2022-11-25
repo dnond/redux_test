@@ -4,8 +4,6 @@ import { ToDo } from "./entities"
 import { TodoRepository } from "./ports"
 
 export const getAll = createAsyncThunk<ToDo[], void, { extra: TodoInteractor }>('getAll', async (_, { extra }) => {
-  console.log('fire');
-
   return extra.getAll()
 })
 
@@ -17,7 +15,6 @@ const todoSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(getAll.fulfilled, (state, { payload }) => {
-      console.log(payload);
       state.todos = payload
     })
   },
@@ -32,7 +29,7 @@ export const createStore = (repository: TodoRepository) => configureStore({
   reducer,
   middleware: getDefaultMiddleware => {
     const middleware = getDefaultMiddleware({
-      thunk: { extraArgument: { todoInteractor: createToDoInteractor(repository) } }
+      thunk: { extraArgument: createToDoInteractor(repository) }
     })
 
     return middleware
@@ -42,3 +39,5 @@ export const createStore = (repository: TodoRepository) => configureStore({
 export const selectToDos = (state: State) => {
   return state.todoSlice.todos
 }
+
+export type Dispatch = ReturnType<typeof createStore>['dispatch']
