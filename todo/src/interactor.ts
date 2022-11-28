@@ -1,12 +1,17 @@
-import { TodoRepository, TodosPresenter } from "./ports"
+import { TodoRepository } from "./ports";
+import { ToDo } from "./entities";
 
 export const createToDoInteractor = (repository: TodoRepository) => {
   const getAll = async () => {
-    const newTodos = await repository.getAll()
-    return newTodos
-  }
+    const newTodos = await repository.getAll();
+    return newTodos;
+  };
 
-  return { getAll }
-}
+  const addToDo = async (toDoName: string) => {
+    repository.addToDo(toDoName);
+  };
 
-export type TodoInteractor = ReturnType<typeof createToDoInteractor>
+  return { getAll, addToDo };
+};
+
+export type TodoInteractor = ReturnType<typeof createToDoInteractor>;

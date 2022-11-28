@@ -60,9 +60,9 @@ const createSteps = () => {
   }
 
   const thenGettedTodoAre = (expectedTodos: ToDo[]) => {
-    expect(listItems[0]).toHaveTextContent('hoge')
-    expect(listItems[1]).toHaveTextContent('hoge')
-    expect(listItems[2]).toHaveTextContent('hoge')
+    expect(listItems[0]).toHaveTextContent(expectedTodos[0].name)
+    expect(listItems[1]).toHaveTextContent(expectedTodos[1].name)
+    expect(listItems[2]).toHaveTextContent(expectedTodos[2].name)
 
   }
 

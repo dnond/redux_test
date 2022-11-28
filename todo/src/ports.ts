@@ -1,9 +1,6 @@
-import { ToDo } from "./entities"
+import { ToDo } from "./entities";
 
 export interface TodoRepository {
-  getAll: () => Promise<ToDo[]>
-}
-
-export interface TodosPresenter {
-  set: (newTodos: ToDo[]) => void
+  getAll: () => Promise<ToDo[]>;
+  addToDo: (toDoName: string) => void;
 }

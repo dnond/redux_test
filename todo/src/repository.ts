@@ -1,15 +1,24 @@
-import { ToDo } from "./entities"
+import { ToDo } from "./entities";
+import { TodoListContainer } from "./TodoListContainer";
 
 export const createRepository = () => {
-  let inMemoryToDos: ToDo[]
+  let inMemoryToDos: ToDo[];
 
   const init = (initialToDos: ToDo[]) => {
-    inMemoryToDos = initialToDos
-  }
+    inMemoryToDos = initialToDos;
+  };
 
   const getAll = () => {
-    return Promise.resolve(inMemoryToDos)
-  }
+    return Promise.resolve(inMemoryToDos);
+  };
 
-  return { init, getAll }
-}
+  const addToDo = (toDoName: string) => {
+    inMemoryToDos = [
+      ...inMemoryToDos,
+      { id: inMemoryToDos.length + 1, complete: false, name: toDoName },
+    ];
+    return Promise.resolve();
+  };
+
+  return { init, getAll, addToDo };
+};
