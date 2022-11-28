@@ -1,4 +1,4 @@
-import { configureStore, combineReducers, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { configureStore, combineReducers, createSlice, createAsyncThunk, } from "@reduxjs/toolkit"
 import { TodoInteractor, createToDoInteractor } from "./interactor"
 import { ToDo } from "./entities"
 import { TodoRepository } from "./ports"
@@ -24,6 +24,8 @@ const reducer = combineReducers({
   [todoSlice.name]: todoSlice.reducer
 })
 type State = ReturnType<typeof reducer>
+
+const middlewares = getDefaultMiddleware()
 
 export const createStore = (repository: TodoRepository) => configureStore({
   reducer,
