@@ -22,9 +22,9 @@ describe('add todo', () => {
       name: 'hoge',
       complete: false
     }])
-    
+
     await steps.whenAddTodoList('added')
-    
+
     await steps.thenTodoListIs([
       {
         id: 1,
@@ -52,7 +52,6 @@ describe('add todo', () => {
 
 const createSteps = () => {
   const repository = createRepository()
-  const store = createStore(repository)
 
   const givenTodoList = (initialToDoList: ToDo[]) => {
     repository.init(initialToDoList)
@@ -72,7 +71,7 @@ const createSteps = () => {
     expect(listItems[0]).toHaveTextContent(expectedTodoList[0].name)
     expect(listItems[1]).toHaveTextContent(expectedTodoList[1].name)
     expect(listItems[2]).toHaveTextContent(expectedTodoList[2].name)
-    expect(listItems[3]).toHaveTextContent(expectedTodoList[3].name)  
+    expect(listItems[3]).toHaveTextContent(expectedTodoList[3].name)
   }
 
   return { givenTodoList, whenAddTodoList, thenTodoListIs }

@@ -20,5 +20,12 @@ export const createRepository = () => {
     return Promise.resolve();
   };
 
-  return { init, getAll, addToDo };
+  const deleteToDo = (deleteToDoId: number) => {
+    inMemoryToDos = inMemoryToDos.filter(({ id }) => {
+      return id !== deleteToDoId
+    });
+    return Promise.resolve();
+  }
+
+  return { init, getAll, addToDo, deleteToDo };
 };

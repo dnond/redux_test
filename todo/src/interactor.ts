@@ -11,7 +11,11 @@ export const createToDoInteractor = (repository: TodoRepository) => {
     repository.addToDo(toDoName);
   };
 
-  return { getAll, addToDo };
+  const deleteToDo = async (deleteToDoId: number) => {
+    repository.deleteToDo(deleteToDoId);
+  }
+
+  return { getAll, addToDo, deleteToDo };
 };
 
 export type TodoInteractor = ReturnType<typeof createToDoInteractor>;

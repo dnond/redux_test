@@ -22,6 +22,14 @@ export const addTodo = createAsyncThunk<
   extra.addToDo(toDo);
   return extra.getAll();
 });
+export const deleteTodo = createAsyncThunk<
+  ToDo[],
+  number,
+  { extra: TodoInteractor }
+>("deleteTodo", async (deleteToDoId, { extra }) => {
+  extra.deleteToDo(deleteToDoId);
+  return extra.getAll();
+})
 
 const todoSlice = createSlice({
   name: "todoSlice",
@@ -35,6 +43,10 @@ const todoSlice = createSlice({
     });
 
     builder.addCase(addTodo.fulfilled, (state, { payload }) => {
+      state.todos = payload;
+    });
+
+    builder.addCase(deleteTodo.fulfilled, (state, { payload }) => {
       state.todos = payload;
     });
   },
