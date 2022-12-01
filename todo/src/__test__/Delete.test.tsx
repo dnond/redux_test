@@ -1,7 +1,7 @@
 import { ToDo } from "../entities"
-import { createRepository } from "../repository"
+import { createToDosRepository } from "../repository"
 import userEvent from '@testing-library/user-event'
-import { createToDoInteractor } from "../interactor"
+import { createToDosInteractor } from "../interactor"
 import { createStore, deleteTodo, selectToDos } from "../store"
 import { TodoListContainer } from "../TodoListContainer"
 import { render, screen } from "@testing-library/react"
@@ -42,7 +42,7 @@ describe('delete todo', () => {
 })
 
 const createSteps = () => {
-  const repository = createRepository()
+  const repository = createToDosRepository()
   const store = createStore(repository)
   let initialToDos: ToDo[]
 

@@ -20,7 +20,6 @@ const ToDoItem:FC<{todo: ToDo}> = ({todo}) => {
   const dispatch = useDispatch<Dispatch>()
   const onClick = useCallback(
     () => {
-      console.log(todo.id)
       dispatch(deleteTodo(todo.id))},
     []
   )

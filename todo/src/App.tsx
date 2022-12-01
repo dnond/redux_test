@@ -1,7 +1,7 @@
-import { createRepository } from "./repository"
+import { createToDosRepository } from "./repository"
 import { TodoListContainer } from "./TodoListContainer"
 
-const repository = createRepository()
+const repository = createToDosRepository()
 repository.init([{id: 1, name: 'hoge', complete: true}])
 
 export const App = () => {
