@@ -1,7 +1,7 @@
 import { ToDo } from '../entities'
 import { render, screen } from '@testing-library/react'
 import { TodoListContainer } from '../TodoListContainer'
-import { createRepository } from '../repository'
+import { createToDosRepository } from '../repository'
 
 describe('Get All Todo List Test', () => {
   it('get todo list', async () => {
@@ -47,7 +47,7 @@ describe('Get All Todo List Test', () => {
 
 
 const createSteps = () => {
-  const repository = createRepository()
+  const repository = createToDosRepository()
   let listItems : HTMLElement[]
 
   const givenTodoList = (initialToDos: ToDo[]) => {

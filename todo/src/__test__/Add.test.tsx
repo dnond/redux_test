@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ToDo } from '../entities'
-import { createRepository } from '../repository'
+import { createToDosRepository } from '../repository'
 import { createStore, selectToDos } from '../store'
 import { TodoListContainer } from '../TodoListContainer'
 
@@ -51,7 +51,7 @@ describe('add todo', () => {
 })
 
 const createSteps = () => {
-  const repository = createRepository()
+  const repository = createToDosRepository()
 
   const givenTodoList = (initialToDoList: ToDo[]) => {
     repository.init(initialToDoList)

@@ -1,7 +1,6 @@
 import { ToDo } from "./entities";
-import { TodoListContainer } from "./TodoListContainer";
 
-export const createRepository = () => {
+export const createToDosRepository = () => {
   let inMemoryToDos: ToDo[];
 
   const init = (initialToDos: ToDo[]) => {
@@ -29,3 +28,22 @@ export const createRepository = () => {
 
   return { init, getAll, addToDo, deleteToDo };
 };
+
+export const createToDoRepository = () => {
+  let inMemoryToDo: ToDo;
+
+  const init = (initialToDo: ToDo) => {
+    inMemoryToDo = initialToDo
+  }
+
+  const setComplete = (complete: boolean) => {
+    inMemoryToDo = { ...inMemoryToDo, complete: complete }
+    return Promise.resolve();
+  }
+
+  const getOne = () => {
+    return Promise.resolve(inMemoryToDo);
+  }
+
+  return { init, setComplete, getOne }
+}
