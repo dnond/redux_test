@@ -4,13 +4,9 @@ export interface TodosRepository {
   getAll: () => Promise<ToDo[]>;
   addToDo: (toDoName: string) => Promise<void>;
   deleteToDo: (deleteToDoId: number) => Promise<void>;
+  setComplete: (complete: boolean, completeToDoId: number) => Promise<void>;
+  getOne: (completeToDoId: number) => Promise<ToDo | undefined>;
 }
-
-export interface TodoRepository {
-  setComplete: (complete: boolean) => Promise<void>;
-  getOne: () => Promise<ToDo>;
-}
-
 export interface ToDoPresenter {
   get: () => ToDo;
   set: (newToDo: ToDo) => void;
@@ -24,10 +20,8 @@ export const createToDoPresenter = () => {
   }
 
   const set = (newToDo: ToDo) => {
-    console.log('set', toDo)
     toDo = newToDo
-    console.log('set', toDo)
   }
 
   return { get, set }
-} 
+}

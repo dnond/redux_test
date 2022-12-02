@@ -1,7 +1,7 @@
-import { ToDoPresenter, TodoRepository, TodosRepository } from "./ports";
+import { ToDoPresenter, TodosRepository } from "./ports";
 import { ToDo } from "./entities";
 
-export const createToDosInteractor = (repository: TodosRepository) => {
+export const createToDosInteractor = (repository: TodosRepository, presenter: ToDoPresenter) => {
   const getAll = async () => {
     const newTodos = await repository.getAll();
     return newTodos;
@@ -15,19 +15,18 @@ export const createToDosInteractor = (repository: TodosRepository) => {
     repository.deleteToDo(deleteToDoId);
   }
 
-  return { getAll, addToDo, deleteToDo };
+  const complete = async (completed: boolean, completeToDoId: number) => {
+    await repository.setComplete(completed, completeToDoId)
+    const toDo = await repository.getOne(completeToDoId)
+    if (toDo) {
+      presenter.set(toDo)
+    } else {
+      throw "ToDo not found"
+    }
+  }
+
+
+  return { getAll, addToDo, deleteToDo, complete };
 };
 
 export type ToDosInteractor = ReturnType<typeof createToDosInteractor>;
-
-export const createToDoInteractor = (repository: TodoRepository, presenter: ToDoPresenter) => {
-  const complete = async (completed: boolean) => {
-    await repository.setComplete(completed)
-    const toDo = await repository.getOne()
-    presenter.set(toDo)
-  }
-
-  return { complete }
-}
-
-export type ToDoInteractor = ReturnType<typeof createToDoInteractor>;

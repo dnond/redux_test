@@ -4,9 +4,9 @@ import {
   createSlice,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { ToDosInteractor, createToDosInteractor, createToDoInteractor, ToDoInteractor } from "./interactor";
+import { ToDosInteractor, createToDosInteractor } from "./interactor";
 import { ToDo } from "./entities";
-import { TodoRepository, TodosRepository, createToDoPresenter } from "./ports";
+import { TodosRepository, createToDoPresenter } from "./ports";
 
 export const getAll = createAsyncThunk<ToDo[], void, { extra: ToDosInteractor }>(
   "getAll",
@@ -32,12 +32,13 @@ export const deleteTodo = createAsyncThunk<
 })
 export const complete = createAsyncThunk<
   ToDo,
-  boolean,
-  { extra: ToDoInteractor & { getOne: () =>  ToDo }}
->("complete", async (completed, { extra }) => {
-  await extra.complete(completed);
-  return extra.getOne();
+  { complete: boolean, completeToDoId: number },
+  { extra: ToDosInteractor & { getOne: (completeToDoId: number) => ToDo } }
+>("complete", async (payload, { extra }) => {
+  await extra.complete(payload.complete, payload.completeToDoId);
+  return extra.getOne(payload.completeToDoId);
 })
+
 
 const todoSlice = createSlice({
   name: "todoSlice",
@@ -72,17 +73,18 @@ const reducer = combineReducers({
 
 type State = ReturnType<typeof reducer>;
 
-export const createStore = (repository: TodosRepository, todoRepository: TodoRepository) => {
+export const createStore = (repository: TodosRepository) => {
   const presenter = createToDoPresenter()
   return configureStore({
     reducer,
     middleware: (getDefaultMiddleware) => {
       const middleware = getDefaultMiddleware({
-        thunk: { extraArgument: {
-          ...createToDosInteractor(repository), 
-          ...createToDoInteractor(todoRepository, presenter),
-          getOne: presenter.get
-        } },
+        thunk: {
+          extraArgument: {
+            ...createToDosInteractor(repository, presenter),
+            getOne: presenter.get
+          }
+        },
       });
 
       return middleware;

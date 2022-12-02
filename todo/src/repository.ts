@@ -14,7 +14,7 @@ export const createToDosRepository = () => {
   const addToDo = (toDoName: string) => {
     inMemoryToDos = [
       ...inMemoryToDos,
-      { id: inMemoryToDos.length + 1, complete: false, name: toDoName },
+      { id: Math.random(), complete: false, name: toDoName },
     ];
     return Promise.resolve();
   };
@@ -26,24 +26,18 @@ export const createToDosRepository = () => {
     return Promise.resolve();
   }
 
-  return { init, getAll, addToDo, deleteToDo };
-};
+  const setComplete = (complete: boolean, toDoId: number) => {
+    inMemoryToDos = inMemoryToDos.map((toDo) => {
+      return toDo.id === toDoId ? { ...toDo, complete: complete } : toDo
+    })
 
-export const createToDoRepository = () => {
-  let inMemoryToDo: ToDo;
-
-  const init = (initialToDo: ToDo) => {
-    inMemoryToDo = initialToDo
-  }
-
-  const setComplete = (complete: boolean) => {
-    inMemoryToDo = { ...inMemoryToDo, complete: complete }
     return Promise.resolve();
   }
 
-  const getOne = () => {
-    return Promise.resolve(inMemoryToDo);
+  const getOne = (toDoId: number) => {
+    return Promise.resolve(inMemoryToDos.find((toDo) => { return toDo.id === toDoId }));
   }
 
-  return { init, setComplete, getOne }
-}
+
+  return { init, getAll, addToDo, deleteToDo, setComplete, getOne };
+};
